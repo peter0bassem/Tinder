@@ -13,6 +13,10 @@
 		E03F9C8D24D0E9640028480B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E03F9C8B24D0E9640028480B /* Main.storyboard */; };
 		E03F9C8F24D0E9690028480B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E03F9C8E24D0E9690028480B /* Assets.xcassets */; };
 		E03F9C9224D0E9690028480B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E03F9C9024D0E9690028480B /* LaunchScreen.storyboard */; };
+		E03F9C9B24D0EBDC0028480B /* Extensions+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03F9C9A24D0EBDC0028480B /* Extensions+UIView.swift */; };
+		E03F9C9E24D0F0ED0028480B /* HomeBottomControlsStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03F9C9D24D0F0ED0028480B /* HomeBottomControlsStackView.swift */; };
+		E03F9CA024D0F52D0028480B /* HomeTopNavigationStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03F9C9F24D0F52D0028480B /* HomeTopNavigationStackView.swift */; };
+		E03F9CA224D100440028480B /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03F9CA124D100440028480B /* CardView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +28,10 @@
 		E03F9C8E24D0E9690028480B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E03F9C9124D0E9690028480B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E03F9C9324D0E9690028480B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E03F9C9A24D0EBDC0028480B /* Extensions+UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extensions+UIView.swift"; sourceTree = "<group>"; };
+		E03F9C9D24D0F0ED0028480B /* HomeBottomControlsStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBottomControlsStackView.swift; sourceTree = "<group>"; };
+		E03F9C9F24D0F52D0028480B /* HomeTopNavigationStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTopNavigationStackView.swift; sourceTree = "<group>"; };
+		E03F9CA124D100440028480B /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +64,8 @@
 		E03F9C8424D0E9640028480B /* Tinder */ = {
 			isa = PBXGroup;
 			children = (
+				E03F9C9C24D0F0BF0028480B /* Views */,
+				E03F9C9924D0EBA80028480B /* Extensions */,
 				E03F9C8524D0E9640028480B /* AppDelegate.swift */,
 				E03F9C8724D0E9640028480B /* SceneDelegate.swift */,
 				E03F9C8924D0E9640028480B /* ViewController.swift */,
@@ -65,6 +75,24 @@
 				E03F9C9324D0E9690028480B /* Info.plist */,
 			);
 			path = Tinder;
+			sourceTree = "<group>";
+		};
+		E03F9C9924D0EBA80028480B /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				E03F9C9A24D0EBDC0028480B /* Extensions+UIView.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		E03F9C9C24D0F0BF0028480B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E03F9C9F24D0F52D0028480B /* HomeTopNavigationStackView.swift */,
+				E03F9CA124D100440028480B /* CardView.swift */,
+				E03F9C9D24D0F0ED0028480B /* HomeBottomControlsStackView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,8 +166,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E03F9CA224D100440028480B /* CardView.swift in Sources */,
+				E03F9CA024D0F52D0028480B /* HomeTopNavigationStackView.swift in Sources */,
 				E03F9C8A24D0E9640028480B /* ViewController.swift in Sources */,
 				E03F9C8624D0E9640028480B /* AppDelegate.swift in Sources */,
+				E03F9C9E24D0F0ED0028480B /* HomeBottomControlsStackView.swift in Sources */,
+				E03F9C9B24D0EBDC0028480B /* Extensions+UIView.swift in Sources */,
 				E03F9C8824D0E9640028480B /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
