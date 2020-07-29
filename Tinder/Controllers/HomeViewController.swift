@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  HomeViewController.swift
 //  Tinder
 //
 //  Created by Peter Bassem on 7/29/20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class HomeViewController: UIViewController {
     
     private lazy var topStackView: HomeTopNavigationStackView = {
         let stackView = HomeTopNavigationStackView()
@@ -21,6 +21,21 @@ class ViewController: UIViewController {
     private lazy var buttonsStackView: HomeBottomControlsStackView = {
         let stackView = HomeBottomControlsStackView()
         return stackView
+    }()
+    
+//    var users = [
+//        User(name: "Kelly", age: 23, profession: "Music DJ", imageName: "lady5c"),
+//        User(name: "Jane", age: 18, profession: "Teacher", imageName: "lady4c")
+//    ]
+    
+    let cardViewModels: [CardViewModel] = {
+        let producers = [
+        User(name: "Kelly", age: 23, profession: "Music DJ", imageNames: ["kelly1", "kelly2", "kelly3"]),
+        User(name: "Jane", age: 18, profession: "Teacher", imageNames: ["jane1", "jane2", "jane3"]),
+        Advertiser(title: "Slide Out Menu", brandName: "Lets Build That App", posterPhotoName: "slide_out_menu_poster"),
+        User(name: "Jane", age: 18, profession: "Teacher", imageNames: ["jane1", "jane2", "jane3"])
+        ] as [ProducesCardViewModel]
+        return producers.map { return $0.toCardViewModel() }
     }()
     
     override func viewDidLoad() {
@@ -43,9 +58,12 @@ class ViewController: UIViewController {
     }
     
     private func setupDummyCards() {
-        let cardView = CardView()
-        cardsDeckView.addSubview(cardView)
-        cardView.fillSuperview()
+        cardViewModels.forEach { (cardViewModel) in
+            let cardView = CardView()
+            cardView.cardViewModel = cardViewModel
+            cardsDeckView.addSubview(cardView)
+            cardView.fillSuperview()
+        }
     }
 }
 

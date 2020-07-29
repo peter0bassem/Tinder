@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		E03F9C8624D0E9640028480B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03F9C8524D0E9640028480B /* AppDelegate.swift */; };
 		E03F9C8824D0E9640028480B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03F9C8724D0E9640028480B /* SceneDelegate.swift */; };
-		E03F9C8A24D0E9640028480B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03F9C8924D0E9640028480B /* ViewController.swift */; };
+		E03F9C8A24D0E9640028480B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03F9C8924D0E9640028480B /* HomeViewController.swift */; };
 		E03F9C8D24D0E9640028480B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E03F9C8B24D0E9640028480B /* Main.storyboard */; };
 		E03F9C8F24D0E9690028480B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E03F9C8E24D0E9690028480B /* Assets.xcassets */; };
 		E03F9C9224D0E9690028480B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E03F9C9024D0E9690028480B /* LaunchScreen.storyboard */; };
@@ -17,13 +17,16 @@
 		E03F9C9E24D0F0ED0028480B /* HomeBottomControlsStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03F9C9D24D0F0ED0028480B /* HomeBottomControlsStackView.swift */; };
 		E03F9CA024D0F52D0028480B /* HomeTopNavigationStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03F9C9F24D0F52D0028480B /* HomeTopNavigationStackView.swift */; };
 		E03F9CA224D100440028480B /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03F9CA124D100440028480B /* CardView.swift */; };
+		E0C44CF624D1308F00E6F334 /* Advertiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C44CF524D1308F00E6F334 /* Advertiser.swift */; };
+		E0EF8AC024D1213B004E5DBB /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0EF8ABF24D1213B004E5DBB /* User.swift */; };
+		E0EF8AC424D128A8004E5DBB /* CardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0EF8AC324D128A8004E5DBB /* CardViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		E03F9C8224D0E9640028480B /* Tinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E03F9C8524D0E9640028480B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E03F9C8724D0E9640028480B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		E03F9C8924D0E9640028480B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E03F9C8924D0E9640028480B /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		E03F9C8C24D0E9640028480B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E03F9C8E24D0E9690028480B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E03F9C9124D0E9690028480B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -32,6 +35,9 @@
 		E03F9C9D24D0F0ED0028480B /* HomeBottomControlsStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBottomControlsStackView.swift; sourceTree = "<group>"; };
 		E03F9C9F24D0F52D0028480B /* HomeTopNavigationStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTopNavigationStackView.swift; sourceTree = "<group>"; };
 		E03F9CA124D100440028480B /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		E0C44CF524D1308F00E6F334 /* Advertiser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Advertiser.swift; sourceTree = "<group>"; };
+		E0EF8ABF24D1213B004E5DBB /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		E0EF8AC324D128A8004E5DBB /* CardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,11 +70,13 @@
 		E03F9C8424D0E9640028480B /* Tinder */ = {
 			isa = PBXGroup;
 			children = (
-				E03F9C9C24D0F0BF0028480B /* Views */,
+				E0EF8AC224D12894004E5DBB /* ViewModels */,
 				E03F9C9924D0EBA80028480B /* Extensions */,
+				E0EF8ABE24D12127004E5DBB /* Model */,
+				E03F9C9C24D0F0BF0028480B /* Views */,
+				E0EF8AC124D127F1004E5DBB /* Controllers */,
 				E03F9C8524D0E9640028480B /* AppDelegate.swift */,
 				E03F9C8724D0E9640028480B /* SceneDelegate.swift */,
-				E03F9C8924D0E9640028480B /* ViewController.swift */,
 				E03F9C8B24D0E9640028480B /* Main.storyboard */,
 				E03F9C8E24D0E9690028480B /* Assets.xcassets */,
 				E03F9C9024D0E9690028480B /* LaunchScreen.storyboard */,
@@ -93,6 +101,31 @@
 				E03F9C9D24D0F0ED0028480B /* HomeBottomControlsStackView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		E0EF8ABE24D12127004E5DBB /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E0EF8ABF24D1213B004E5DBB /* User.swift */,
+				E0C44CF524D1308F00E6F334 /* Advertiser.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		E0EF8AC124D127F1004E5DBB /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				E03F9C8924D0E9640028480B /* HomeViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		E0EF8AC224D12894004E5DBB /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				E0EF8AC324D128A8004E5DBB /* CardViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -166,13 +199,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E0C44CF624D1308F00E6F334 /* Advertiser.swift in Sources */,
 				E03F9CA224D100440028480B /* CardView.swift in Sources */,
 				E03F9CA024D0F52D0028480B /* HomeTopNavigationStackView.swift in Sources */,
-				E03F9C8A24D0E9640028480B /* ViewController.swift in Sources */,
+				E03F9C8A24D0E9640028480B /* HomeViewController.swift in Sources */,
 				E03F9C8624D0E9640028480B /* AppDelegate.swift in Sources */,
+				E0EF8AC024D1213B004E5DBB /* User.swift in Sources */,
 				E03F9C9E24D0F0ED0028480B /* HomeBottomControlsStackView.swift in Sources */,
 				E03F9C9B24D0EBDC0028480B /* Extensions+UIView.swift in Sources */,
 				E03F9C8824D0E9640028480B /* SceneDelegate.swift in Sources */,
+				E0EF8AC424D128A8004E5DBB /* CardViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
