@@ -9,7 +9,12 @@
 import UIKit
 
 class HomeBottomControlsStackView: UIStackView {
-
+    
+    // MARK: - UI Components
+    
+    // MARK: - Variables
+    
+    // MARK: - UIView Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
         

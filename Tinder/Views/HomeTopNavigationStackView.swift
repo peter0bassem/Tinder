@@ -10,9 +10,11 @@ import UIKit
 
 class HomeTopNavigationStackView: UIStackView {
     
+    // MARK : - UI Components
     private lazy var settingsButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "top_left_profile").withRenderingMode(.alwaysOriginal), for: .normal)
+        button.addTarget(self, action: #selector(onSettingsButtonPressed(_:)), for: .touchUpInside)
         return button
     }()
     private lazy var fireImageView: UIImageView = {
@@ -25,7 +27,11 @@ class HomeTopNavigationStackView: UIStackView {
         button.setImage(#imageLiteral(resourceName: "top_right_messages").withRenderingMode(.alwaysOriginal), for: .normal)
         return button
     }()
+    
+    // MARK: - Variables
+    var settingsButtonPressed: (() -> Void)?
 
+    // MARK: - UIView Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -40,4 +46,10 @@ class HomeTopNavigationStackView: UIStackView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Helpers
+    
+    // MARK: - Actions
+    @objc private func onSettingsButtonPressed(_ sender: UIButton) {
+        settingsButtonPressed?()
+    }
 }

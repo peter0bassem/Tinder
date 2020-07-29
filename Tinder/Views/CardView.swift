@@ -10,6 +10,7 @@ import UIKit
 
 class CardView: UIView {
     
+    // MARK: - UI Components
     private lazy var barsStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.spacing = 4
@@ -35,6 +36,7 @@ class CardView: UIView {
         return label
     }()
     
+    // MARK: - Variables
     private let threshold: CGFloat = 80
     private let barDeselectedColor = UIColor(white: 0, alpha: 0.1)
     
@@ -56,6 +58,7 @@ class CardView: UIView {
         }
     }
     
+    // MARK: - UIView Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupLayout()
@@ -74,6 +77,7 @@ class CardView: UIView {
         gradientLayer.frame = frame
     }
     
+    // MARK: - Helpers
     private func setupLayout() {
         layer.cornerRadius = 10
         clipsToBounds = true
@@ -103,6 +107,7 @@ class CardView: UIView {
         }
     }
     
+    // MARK: - Actions
     private func handleChanged(_ sender: UIPanGestureRecognizer) {
         let translation = sender.translation(in: nil)
         // rotation

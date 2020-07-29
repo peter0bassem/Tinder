@@ -10,6 +10,7 @@ import UIKit
 
 class HomeViewController: UIViewController {
     
+    // MARK : - UI Components
     private lazy var topStackView: HomeTopNavigationStackView = {
         let stackView = HomeTopNavigationStackView()
         return stackView
@@ -23,11 +24,7 @@ class HomeViewController: UIViewController {
         return stackView
     }()
     
-//    var users = [
-//        User(name: "Kelly", age: 23, profession: "Music DJ", imageName: "lady5c"),
-//        User(name: "Jane", age: 18, profession: "Teacher", imageName: "lady4c")
-//    ]
-    
+    // MARK : - Variables
     let cardViewModels: [CardViewModel] = {
         let producers = [
         User(name: "Kelly", age: 23, profession: "Music DJ", imageNames: ["kelly1", "kelly2", "kelly3"]),
@@ -38,15 +35,22 @@ class HomeViewController: UIViewController {
         return producers.map { return $0.toCardViewModel() }
     }()
     
+    // MARK: - UIViewController Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
         setupLayout()
-        
         setupDummyCards()
+        
+        topStackView.settingsButtonPressed = { [weak self] in
+            let registrationController = RegistrationViewController()
+            registrationController.modalPresentationStyle = .fullScreen
+            self?.present(registrationController, animated: true)
+        }
     }
     
+    // MARK: - Helpers
     private func setupLayout() {
         let overallStackView = UIStackView(arrangedSubviews: [topStackView, cardsDeckView, buttonsStackView])
         overallStackView.axis = .vertical
