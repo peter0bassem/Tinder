@@ -20,10 +20,10 @@ class CardViewModel {
     
     private var imageIndex = 0 {
         didSet {
-            imageIndexObserver?(imageIndex, UIImage(named: imageNames[imageIndex]))
+            imageIndexObserver?(imageIndex, imageNames[imageIndex])
         }
     }
-    var imageIndexObserver: ((Int, UIImage?) -> Void)?
+    var imageIndexObserver: ((Int, String?) -> Void)?
     
     init(imageNames: [String], attributedString: NSAttributedString, textAlignment: NSTextAlignment) {
         self.imageNames = imageNames
