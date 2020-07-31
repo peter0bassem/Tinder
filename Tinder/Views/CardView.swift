@@ -9,6 +9,10 @@
 import UIKit
 import SDWebImage
 
+protocol CardViewDelegate: class {
+    func cardViewDidTapMoreInfo(with cardViewModel: CardViewModel)
+}
+
 class CardView: UIView {
     
     // MARK: - UI Components
@@ -36,25 +40,34 @@ class CardView: UIView {
         label.textColor = .white
         return label
     }()
+    private lazy var moreInfoButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "info_icon").withRenderingMode(.alwaysOriginal), for: .normal)
+        button.addTarget(self, action: #selector(onMoreInfoButtonPressed(_:)), for: .touchUpInside)
+        return button
+    }()
     
     // MARK: - Variables
     private let threshold: CGFloat = 80
     private let barDeselectedColor = UIColor(white: 0, alpha: 0.1)
+    weak var delegate: CardViewDelegate?
     
     var cardViewModel: CardViewModel! {
         didSet {
-            let imageName = cardViewModel.imageNames.first ?? ""
+            let imageName = cardViewModel.imageUrls.first ?? ""
             imageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
             imageView.sd_setImage(with: URL(string: imageName))
             informationLabel.attributedText = cardViewModel.attributedString
             informationLabel.textAlignment = cardViewModel.textAlignment
             
-            (0..<cardViewModel.imageNames.count).forEach { (_) in
-                let barView = UIView()
-                barView.backgroundColor = .init(white: 0, alpha: 0.1)
-                barsStackView.addArrangedSubview(barView)
+            if cardViewModel.imageUrls.count > 1 {
+                (0..<cardViewModel.imageUrls.count).forEach { (_) in
+                    let barView = UIView()
+                    barView.backgroundColor = .init(white: 0, alpha: 0.1)
+                    barsStackView.addArrangedSubview(barView)
+                }
+                barsStackView.arrangedSubviews.first?.backgroundColor = .white
             }
-            barsStackView.arrangedSubviews.first?.backgroundColor = .white
             
             setupImageIndexObserver()
         }
@@ -94,6 +107,9 @@ class CardView: UIView {
         
         addSubview(informationLabel)
         informationLabel.anchor(top: nil, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor, padding: .init(top: 0, left: 16, bottom: 16, right: 16))
+        
+        addSubview(moreInfoButton)
+        moreInfoButton.anchor(top: nil, leading: nil, bottom: bottomAnchor, trailing: trailingAnchor, padding: .init(top: 0, left: 0, bottom: 16, right: 16), size: .init(width: 44, height: 44))
     }
     
     private func setupBarsStackview() {
@@ -131,11 +147,11 @@ class CardView: UIView {
                 
                 // How to transform card off screen?
                 //1
-//                let offScreenTransform = self.transform.translatedBy(x: 1000, y: 0)
-//                self.transform = offScreenTransform
+                //                let offScreenTransform = self.transform.translatedBy(x: 1000, y: 0)
+                //                self.transform = offScreenTransform
                 
                 //2
-//                self.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height) // don't work on iOS 13!!
+                //                self.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height) // don't work on iOS 13!!
                 self.center = CGPoint(x: 600 * translationDirection, y: 0)
                 
             } else {
@@ -145,9 +161,9 @@ class CardView: UIView {
             self.transform = .identity
             if shouldDismissCard {
                 self.removeFromSuperview()
-//                self.superview?.sendSubviewToBack(self) // just for sending the removed card to the back of all other views for not showing empty view after removing all cards.
+                //                self.superview?.sendSubviewToBack(self) // just for sending the removed card to the back of all other views for not showing empty view after removing all cards.
             }
-//            self.frame = CGRect(x: 0, y: 0, width: self.superview!.frame.size.width, height: self.superview!.frame.size.height)
+            //            self.frame = CGRect(x: 0, y: 0, width: self.superview!.frame.size.width, height: self.superview!.frame.size.height)
         }
     }
     
@@ -173,5 +189,9 @@ class CardView: UIView {
         } else {
             cardViewModel.goToPreviousPhoto()
         }
+    }
+    
+    @objc private func onMoreInfoButtonPressed(_ sender: UIButton) {
+        delegate?.cardViewDidTapMoreInfo(with: cardViewModel)
     }
 }

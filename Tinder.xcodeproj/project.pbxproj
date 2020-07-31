@@ -13,6 +13,9 @@
 		E013295224D2A6CF00214E1C /* CustomImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E013295124D2A6CE00214E1C /* CustomImagePickerController.swift */; };
 		E013295424D2A70700214E1C /* HeaderLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E013295324D2A70700214E1C /* HeaderLabel.swift */; };
 		E013295624D2A73C00214E1C /* SettingsTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E013295524D2A73C00214E1C /* SettingsTextField.swift */; };
+		E02C7C3B24D3D68E00F52950 /* UserDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02C7C3A24D3D68E00F52950 /* UserDetailsViewController.swift */; };
+		E02C7C3D24D3F31400F52950 /* SwipingPhotosPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02C7C3C24D3F31400F52950 /* SwipingPhotosPageViewController.swift */; };
+		E02C7C3F24D4184600F52950 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02C7C3E24D4184600F52950 /* PhotoViewController.swift */; };
 		E03F9C8624D0E9640028480B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03F9C8524D0E9640028480B /* AppDelegate.swift */; };
 		E03F9C8824D0E9640028480B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03F9C8724D0E9640028480B /* SceneDelegate.swift */; };
 		E03F9C8A24D0E9640028480B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03F9C8924D0E9640028480B /* HomeViewController.swift */; };
@@ -46,6 +49,9 @@
 		E013295124D2A6CE00214E1C /* CustomImagePickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImagePickerController.swift; sourceTree = "<group>"; };
 		E013295324D2A70700214E1C /* HeaderLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderLabel.swift; sourceTree = "<group>"; };
 		E013295524D2A73C00214E1C /* SettingsTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTextField.swift; sourceTree = "<group>"; };
+		E02C7C3A24D3D68E00F52950 /* UserDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailsViewController.swift; sourceTree = "<group>"; };
+		E02C7C3C24D3F31400F52950 /* SwipingPhotosPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipingPhotosPageViewController.swift; sourceTree = "<group>"; };
+		E02C7C3E24D4184600F52950 /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
 		E03F9C8224D0E9640028480B /* Tinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E03F9C8524D0E9640028480B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E03F9C8724D0E9640028480B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -104,6 +110,16 @@
 				E04916E324D38EDA00242A5D /* AgeRangeLabel.swift */,
 			);
 			path = CustomUIComponents;
+			sourceTree = "<group>";
+		};
+		E02C7C3924D3D67500F52950 /* User Details */ = {
+			isa = PBXGroup;
+			children = (
+				E02C7C3A24D3D68E00F52950 /* UserDetailsViewController.swift */,
+				E02C7C3C24D3F31400F52950 /* SwipingPhotosPageViewController.swift */,
+				E02C7C3E24D4184600F52950 /* PhotoViewController.swift */,
+			);
+			path = "User Details";
 			sourceTree = "<group>";
 		};
 		E03F9C7924D0E9640028480B = {
@@ -186,6 +202,7 @@
 		E0EF8AC124D127F1004E5DBB /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				E02C7C3924D3D67500F52950 /* User Details */,
 				E07C17AC24D3B14A0040BCDD /* LoginViewController.swift */,
 				E0F9BC7C24D1A68A00F81B6E /* RegistrationViewController.swift */,
 				E03F9C8924D0E9640028480B /* HomeViewController.swift */,
@@ -334,10 +351,12 @@
 				E03F9CA224D100440028480B /* CardView.swift in Sources */,
 				E07C17AD24D3B14A0040BCDD /* LoginViewController.swift in Sources */,
 				E03F9CA024D0F52D0028480B /* HomeTopNavigationStackView.swift in Sources */,
+				E02C7C3B24D3D68E00F52950 /* UserDetailsViewController.swift in Sources */,
 				E0F9BC7D24D1A68A00F81B6E /* RegistrationViewController.swift in Sources */,
 				E03F9C8A24D0E9640028480B /* HomeViewController.swift in Sources */,
 				E03F9C8624D0E9640028480B /* AppDelegate.swift in Sources */,
 				E013295424D2A70700214E1C /* HeaderLabel.swift in Sources */,
+				E02C7C3D24D3F31400F52950 /* SwipingPhotosPageViewController.swift in Sources */,
 				E0EF8AC024D1213B004E5DBB /* User.swift in Sources */,
 				E03F9C9E24D0F0ED0028480B /* HomeBottomControlsStackView.swift in Sources */,
 				E0C7425624D242DD000D20A2 /* Bindable.swift in Sources */,
@@ -350,6 +369,7 @@
 				E03F9C9B24D0EBDC0028480B /* Extensions+UIView.swift in Sources */,
 				E03F9C8824D0E9640028480B /* SceneDelegate.swift in Sources */,
 				E07C17AF24D3B7F60040BCDD /* LoginViewModel.swift in Sources */,
+				E02C7C3F24D4184600F52950 /* PhotoViewController.swift in Sources */,
 				E0EF8AC424D128A8004E5DBB /* CardViewModel.swift in Sources */,
 				E0B5445C24D3A7DD00EFA0DC /* Firebase+Utils.swift in Sources */,
 				E013295624D2A73C00214E1C /* SettingsTextField.swift in Sources */,

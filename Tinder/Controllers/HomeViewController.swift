@@ -102,8 +102,7 @@ class HomeViewController: UIViewController {
     }
     
     private func fetchUsersFromFirestore() {
-        let query = Firestore.firestore().collection("users").whereField("age", isGreaterThanOrEqualTo: user?.minSeekingAge ?? -1).whereField("age", isLessThanOrEqualTo: user?.maxSeekingAge ?? -1)
-            //.order(by: "uid").start(after: [lastFetchedUser?.uid ?? ""]).limit(to: 2)
+        let query = Firestore.firestore().collection("users").whereField("age", isGreaterThanOrEqualTo: user?.minSeekingAge ?? 0).whereField("age", isLessThanOrEqualTo: user?.maxSeekingAge ?? 100)
         query.getDocuments { [weak self] (snapshot, error) in
             self?.loadingHud.dismiss()
             if let error = error {
@@ -112,17 +111,19 @@ class HomeViewController: UIViewController {
             }
             snapshot?.documents.forEach {
                 let user = User(dictionary: $0.data())
-                self?.cardViewModels.append(user.toCardViewModel())
-                self?.lastFetchedUser = user
-                self?.setupCard(from: user)
+                if user.uid != Auth.auth().currentUser?.uid {
+                    self?.setupCard(from: user)
+                }
+//                self?.cardViewModels.append(user.toCardViewModel())
+//                self?.lastFetchedUser = user
             }
-//            self?.setupFirestoreUserCards()
         }
     }
     
     private func setupCard(from user: User) {
         let cardView = CardView()
         cardView.cardViewModel = user.toCardViewModel()
+        cardView.delegate = self
         cardsDeckView.addSubview(cardView)
         cardsDeckView.sendSubviewToBack(cardView)
         cardView.fillSuperview()
@@ -152,5 +153,16 @@ extension HomeViewController: LoginViewControllerDelegate {
     
     func didFinishLoggingIn() {
         fetchCurrentUser()
+    }
+}
+
+// MARK: - CardViewDelegate
+extension HomeViewController: CardViewDelegate {
+    
+    func cardViewDidTapMoreInfo(with cardViewModel: CardViewModel) {
+        let userDetailsViewController = UserDetailsViewController()
+        userDetailsViewController.modalPresentationStyle = .fullScreen
+        userDetailsViewController.cardViewModel = cardViewModel
+        present(userDetailsViewController, animated: true)
     }
 }
