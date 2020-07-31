@@ -44,16 +44,16 @@ class AgeRangeTableViewCell: UITableViewCell {
     
     var minSeekingRangeValue: Int? {
         didSet {
-            guard let minSeekingRangeValue = minSeekingRangeValue else { return }
-            minLabel.text = "Min \(minSeekingRangeValue)"
-            minSlider.value = Float(minSeekingRangeValue)
+//            guard let minSeekingRangeValue = minSeekingRangeValue else { return }
+            minLabel.text = "Min \(minSeekingRangeValue ?? SettingsTableViewController.defaultMinSeekingAge)"
+            minSlider.value = Float(minSeekingRangeValue ?? SettingsTableViewController.defaultMinSeekingAge)
         }
     }
     var maxSeekingRangeValue: Int? {
         didSet {
-            guard let maxSeekingRangeValue = maxSeekingRangeValue else { return }
-            maxLabel.text = "Max \(maxSeekingRangeValue)"
-            maxSlider.value = Float(maxSeekingRangeValue)
+//            guard let maxSeekingRangeValue = maxSeekingRangeValue else { return }
+            maxLabel.text = "Max \(maxSeekingRangeValue ?? SettingsTableViewController.defaultMaxSeekingAge)"
+            maxSlider.value = Float(maxSeekingRangeValue ?? SettingsTableViewController.defaultMaxSeekingAge)
         }
     }
     

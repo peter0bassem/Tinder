@@ -285,6 +285,7 @@ extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigat
         picker.dismiss(animated: true)
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             registrationViewModel.bindableImage.value = image
+            registrationViewModel.selectedProfileImage = image
         }
     }
     

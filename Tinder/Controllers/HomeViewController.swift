@@ -15,7 +15,7 @@ class HomeViewController: UIViewController {
     // MARK : - UI Components
     private lazy var loadingHud: JGProgressHUD = {
         let hud = JGProgressHUD(style: .dark)
-        hud.textLabel.text = "Fetching Users"
+        hud.textLabel.text = "Loading"
         return hud
     }()
     private lazy var topStackView: HomeTopNavigationStackView = {
@@ -102,7 +102,7 @@ class HomeViewController: UIViewController {
     }
     
     private func fetchUsersFromFirestore() {
-        let query = Firestore.firestore().collection("users").whereField("age", isGreaterThanOrEqualTo: user?.minSeekingAge ?? 0).whereField("age", isLessThanOrEqualTo: user?.maxSeekingAge ?? 100)
+        let query = Firestore.firestore().collection("users").whereField("age", isGreaterThanOrEqualTo: user?.minSeekingAge ?? SettingsTableViewController.defaultMinSeekingAge).whereField("age", isLessThanOrEqualTo: user?.maxSeekingAge ?? SettingsTableViewController.defaultMaxSeekingAge)
         query.getDocuments { [weak self] (snapshot, error) in
             self?.loadingHud.dismiss()
             if let error = error {

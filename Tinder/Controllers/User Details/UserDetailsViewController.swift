@@ -20,7 +20,7 @@ class UserDetailsViewController: UIViewController {
         return scrollView
     }()
     private lazy var swipingPhotoPageViewController: SwipingPhotosPageViewController = {
-        let viewController = SwipingPhotosPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+        let viewController = SwipingPhotosPageViewController()
         return viewController
     }()
     private var swipingPhotoPageViewControllerView: UIView {

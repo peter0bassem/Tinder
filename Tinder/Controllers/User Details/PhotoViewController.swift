@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class PhotoViewController: UIViewController {
     
@@ -18,9 +19,7 @@ class PhotoViewController: UIViewController {
     }()
     
     init(imageUrl: String) {
-        if let url = URL(string: imageUrl) {
-            imageView.sd_setImage(with: url)
-        }
+        imageView.sd_setImage(with: URL(string: imageUrl), placeholderImage: #imageLiteral(resourceName: "photo_placeholder").withRenderingMode(.alwaysOriginal), options: .continueInBackground)
         super.init(nibName: nil, bundle: nil)
     }
     

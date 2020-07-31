@@ -20,8 +20,17 @@ class RegistrationViewModel {
     var bindableIsFormValid = Bindable<Bool>()
     var bindableIsRegistering = Bindable<Bool>()
     
+    var selectedProfileImage: UIImage? {
+        get {
+            return bindableImage.value
+        } set {
+            _selectedProfileImage = newValue
+        }
+    }
+    private var _selectedProfileImage: UIImage? { didSet { checkFormValidity() } }
+    
     private func checkFormValidity() {
-        let isFormValid = fullName?.isEmpty == false && email?.isEmpty == false && password?.isEmpty == false && password?.count ?? 0 >= 6
+        let isFormValid = fullName?.isEmpty == false && email?.isEmpty == false && password?.isEmpty == false && password?.count ?? 0 >= 6 && _selectedProfileImage != nil //&& bindableImage.value != nil
         bindableIsFormValid.value = isFormValid
     }
     
@@ -64,7 +73,14 @@ class RegistrationViewModel {
     
     private func saveInfoToFirestore(imageUrl: String, completion: @escaping (Error?) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        let docData = ["fullName": fullName ?? "", "imageUrl1": imageUrl, "uid": uid]
+        let docData: [String:Any] = [
+            "fullName": fullName ?? "",
+            "uid": uid,
+            "imageUrl1": imageUrl,
+            "age": 18,
+            "minSeekingAge": SettingsTableViewController.defaultMinSeekingAge,
+            "maxSeekingAge": SettingsTableViewController.defaultMaxSeekingAge
+        ]
         Firestore.firestore().collection("users").document(uid).setData(docData) { (error) in
             if let error = error {
                 completion(error)

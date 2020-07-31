@@ -58,6 +58,9 @@ class SettingsTableViewController: UITableViewController {
     var user: User?
     weak var delegate: SettingsTableViewControllerDelegate?
     
+    static let defaultMinSeekingAge = 18
+    static let defaultMaxSeekingAge = 50
+    
     // MARK: - UIViewController Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
