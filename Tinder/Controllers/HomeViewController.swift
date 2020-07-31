@@ -34,6 +34,7 @@ class HomeViewController: UIViewController {
     // MARK : - Variables
     var cardViewModels = [CardViewModel]()
     var lastFetchedUser: User?
+    private var user: User?
     
     // MARK: - UIViewController Lifecycle
     override func viewDidLoad() {
@@ -41,23 +42,22 @@ class HomeViewController: UIViewController {
         
         // Do any additional setup after loading the view.
         setupLayout()
-        setupFirestoreUserCards()
-        fetchUsersFromFirestore()
         setupTopStackViewActions()
         setupBottomControlsActions()
+        fetchCurrentUser()
+//        setupFirestoreUserCards()
+//        fetchUsersFromFirestore()
     }
     
-    private func setupTopStackViewActions() {
-        topStackView.settingsButtonPressed = { [weak self] in
-            let registrationController = RegistrationViewController()
-            registrationController.modalPresentationStyle = .fullScreen
-            self?.present(registrationController, animated: true)
-        }
-    }
-    
-    private func setupBottomControlsActions() {
-        bottomControls.refreshButtonPressed = { [weak self] in
-            self?.fetchUsersFromFirestore()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if Auth.auth().currentUser == nil {
+            let loginViewController = LoginViewController()
+            loginViewController.delegate = self
+            let registrationNavigationController = UINavigationController(rootViewController: loginViewController)
+            registrationNavigationController.modalPresentationStyle = .fullScreen
+            present(registrationNavigationController, animated: true)
         }
     }
     
@@ -73,9 +73,37 @@ class HomeViewController: UIViewController {
         overallStackView.bringSubviewToFront(cardsDeckView)
     }
     
-    private func fetchUsersFromFirestore() {
+    private func setupTopStackViewActions() {
+        topStackView.settingsButtonPressed = { [weak self] in
+            let settingsViewController = SettingsTableViewController()
+            settingsViewController.delegate = self
+            let settingsNavigationController = UINavigationController(rootViewController: settingsViewController)
+            settingsNavigationController.modalPresentationStyle = .fullScreen
+            self?.present(settingsNavigationController, animated: true)
+        }
+    }
+    
+    private func setupBottomControlsActions() {
+        bottomControls.refreshButtonPressed = { [weak self] in
+            self?.fetchUsersFromFirestore()
+        }
+    }
+    
+    private func fetchCurrentUser() {
         loadingHud.show(in: view)
-        let query = Firestore.firestore().collection("users").order(by: "uid").start(after: [lastFetchedUser?.uid ?? ""]).limit(to: 2)
+        Firestore.firestore().fetchCurrentUser { [weak self] (user, error) in
+            if let error = error {
+                print("Failed to fetch current user:", error)
+                return
+            }
+            self?.user = user
+            self?.fetchUsersFromFirestore()
+        }
+    }
+    
+    private func fetchUsersFromFirestore() {
+        let query = Firestore.firestore().collection("users").whereField("age", isGreaterThanOrEqualTo: user?.minSeekingAge ?? -1).whereField("age", isLessThanOrEqualTo: user?.maxSeekingAge ?? -1)
+            //.order(by: "uid").start(after: [lastFetchedUser?.uid ?? ""]).limit(to: 2)
         query.getDocuments { [weak self] (snapshot, error) in
             self?.loadingHud.dismiss()
             if let error = error {
@@ -110,3 +138,19 @@ class HomeViewController: UIViewController {
     }
 }
 
+
+// MARK: - SettingsTableViewControllerDelegate
+extension HomeViewController: SettingsTableViewControllerDelegate {
+    
+    func didSaveSettings() {
+        fetchCurrentUser()
+    }
+}
+
+// MARK: - LoginViewControllerDelegate
+extension HomeViewController: LoginViewControllerDelegate {
+    
+    func didFinishLoggingIn() {
+        fetchCurrentUser()
+    }
+}
