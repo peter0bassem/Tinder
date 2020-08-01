@@ -12,6 +12,8 @@ import SDWebImage
 protocol CardViewDelegate: class {
     func cardViewDidTapMoreInfo(with cardViewModel: CardViewModel)
     func cardViewDidRemoveCardView(_ cardView: CardView)
+    func cardViewDidLikeSwipe()
+    func cardViewDidDislikeSwipe()
 }
 
 class CardView: UIView {
@@ -138,31 +140,45 @@ class CardView: UIView {
         let translationDirection: CGFloat = sender.translation(in: nil).x > 0 ? 1 : -1
         let shouldDismissCard = abs(sender.translation(in: nil).x) > threshold
 
-
-        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.1, options: .curveEaseOut, animations: {
-            if shouldDismissCard {
-
-                // How to transform card off screen?
-                //1
-                //                let offScreenTransform = self.transform.translatedBy(x: 1000, y: 0)
-                //                self.transform = offScreenTransform
-
-                //2
-                //                self.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height) // don't work on iOS 13!!
-                self.center = CGPoint(x: 600 * translationDirection, y: 0)
-
+        if shouldDismissCard {
+            if translationDirection == 1 {
+                delegate?.cardViewDidLikeSwipe()
             } else {
+                delegate?.cardViewDidDislikeSwipe()
+            }
+            isUserInteractionEnabled = false
+        } else {
+            UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.1, options: .curveEaseOut, animations: {
                 self.transform = .identity
-            }
-        }) { (_) in
-            self.transform = .identity
-            if shouldDismissCard {
-                self.removeFromSuperview()
-                self.delegate?.cardViewDidRemoveCardView(self)
-                //                self.superview?.sendSubviewToBack(self) // just for sending the removed card to the back of all other views for not showing empty view after removing all cards.
-            }
-            //            self.frame = CGRect(x: 0, y: 0, width: self.superview!.frame.size.width, height: self.superview!.frame.size.height)
+            })
         }
+        
+        
+
+//        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.1, options: .curveEaseOut, animations: {
+//            if shouldDismissCard {
+//
+//                // How to transform card off screen?
+//                //1
+//                //                let offScreenTransform = self.transform.translatedBy(x: 1000, y: 0)
+//                //                self.transform = offScreenTransform
+//
+//                //2
+//                //                self.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height) // don't work on iOS 13!!
+//                self.center = CGPoint(x: 600 * translationDirection, y: 0)
+//
+//            } else {
+//                self.transform = .identity
+//            }
+//        }) { (_) in
+//            self.transform = .identity
+//            if shouldDismissCard {
+//                self.removeFromSuperview()
+//                self.delegate?.cardViewDidRemoveCardView(self)
+//                //                self.superview?.sendSubviewToBack(self) // just for sending the removed card to the back of all other views for not showing empty view after removing all cards.
+//            }
+//            //            self.frame = CGRect(x: 0, y: 0, width: self.superview!.frame.size.width, height: self.superview!.frame.size.height)
+//        }
     }
 
     @objc func handlePanGesture(_ sender: UIPanGestureRecognizer) {

@@ -36,6 +36,7 @@ class HomeViewController: UIViewController {
     var lastFetchedUser: User?
     private var user: User?
     private var topCardView: CardView?
+    private var swipes = [String:Int]()
     
     // MARK: - UIViewController Lifecycle
     override func viewDidLoad() {
@@ -46,8 +47,6 @@ class HomeViewController: UIViewController {
         setupTopStackViewActions()
         setupBottomControlsActions()
         fetchCurrentUser()
-        //        setupFirestoreUserCards()
-        //        fetchUsersFromFirestore()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -86,12 +85,15 @@ class HomeViewController: UIViewController {
     
     private func setupBottomControlsActions() {
         bottomControls.refreshButtonPressed = { [weak self] in
+            self?.cardsDeckView.subviews.forEach { $0.removeFromSuperview() }
             self?.fetchCurrentUser()
         }
         bottomControls.dislikeButtonPressed = { [weak self] in
+            self?.saveSwipeToFirestore(didLike: 0)
             self?.performSwipeAnimation(translation: -700, angle: -15)
         }
         bottomControls.likeButtonPressed = { [weak self] in
+            self?.saveSwipeToFirestore(didLike: 1)
             self?.performSwipeAnimation(translation: 700, angle: 15)
         }
     }
@@ -131,6 +133,19 @@ class HomeViewController: UIViewController {
                 return
             }
             self?.user = user
+            self?.fetchSwipes()
+        }
+    }
+    
+    private func fetchSwipes() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        Firestore.firestore().collection("swipes").document(uid).getDocument { [weak self] (snapshot, error) in
+            if let error = error {
+                print("Faield to fetch swipes for currently logged in user:", error)
+                return
+            }
+            guard let swipes = snapshot?.data() as? [String:Int] else { return }
+            self?.swipes = swipes
             self?.fetchUsersFromFirestore()
         }
     }
@@ -149,7 +164,10 @@ class HomeViewController: UIViewController {
             
             snapshot?.documents.forEach {
                 let user = User(dictionary: $0.data())
-                if user.uid != Auth.auth().currentUser?.uid {
+                let isNotCurrentUser = user.uid != Auth.auth().currentUser?.uid
+//                let hasNotSwipedBefore = self?.swipes[user.uid ?? ""] == nil
+                let hasNotSwipedBefore = true
+                if isNotCurrentUser && hasNotSwipedBefore {
                     let cardView = self?.setupCard(from: user)
                     
                     previousCardView?.nextCardView = cardView
@@ -173,13 +191,66 @@ class HomeViewController: UIViewController {
         return cardView
     }
     
-    private func setupFirestoreUserCards() {
-        cardViewModels.forEach { (cardViewModel) in
-            let cardView = CardView()
-            cardView.cardViewModel = cardViewModel
-            cardsDeckView.addSubview(cardView)
-            cardView.fillSuperview()
+    private func saveSwipeToFirestore(didLike: Int) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let cardUID = topCardView?.cardViewModel.uid else { return }
+        let docData = [cardUID: didLike]
+        
+        Firestore.firestore().collection("swipes").document(uid).getDocument { [weak self] (snapshot, error) in
+            if let error = error {
+                print("Failed to fetch swipe document:", error)
+                return
+            }
+            if snapshot?.exists == true {
+                Firestore.firestore().collection("swipes").document(uid).updateData(docData) { (error) in
+                    if let error = error {
+                        print("Failed to save swipe data:", error)
+                        return
+                    }
+                    print("Successfully updated swipe data...")
+                    if didLike == 1 {
+                        self?.checkIfMatchExists(cardUID: cardUID)
+                    }
+                }
+            } else {
+                Firestore.firestore().collection("swipes").document(uid).setData(docData) { (error) in
+                    if let error = error {
+                        print("Failed to save swipe data:", error)
+                        return
+                    }
+                    print("Successfully saved swipe data...")
+                    if didLike == 1 {
+                        self?.checkIfMatchExists(cardUID: cardUID)
+                    }
+                }
+            }
         }
+    }
+    
+    private func checkIfMatchExists(cardUID: String) {
+        Firestore.firestore().collection("swipes").document(cardUID).getDocument { [weak self] (snapshot, error) in
+            if let error = error {
+                print("Failed to fetch document for card user:", error)
+                return
+            }
+            guard let data = snapshot?.data() else { return }
+            print(data)
+            guard let uid = Auth.auth().currentUser?.uid else { return }
+            
+            let hasMatched = data[uid] as? Int == 1
+            if hasMatched {
+                print("Has Matched")
+                self?.presentMatchView(cardUID: cardUID)
+            }
+        }
+    }
+    
+    private func presentMatchView(cardUID: String) {
+        let matchView = MatchView()
+        matchView.currentUser = user
+        matchView.cardUID = cardUID
+        view.addSubview(matchView)
+        matchView.fillSuperview()
     }
 }
 
@@ -213,5 +284,15 @@ extension HomeViewController: CardViewDelegate {
     func cardViewDidRemoveCardView(_ cardView: CardView) {
         topCardView?.removeFromSuperview()
         topCardView = topCardView?.nextCardView
+    }
+    
+    func cardViewDidLikeSwipe() {
+        saveSwipeToFirestore(didLike: 1)
+        performSwipeAnimation(translation: 700, angle: 15)
+    }
+    
+    func cardViewDidDislikeSwipe() {
+        saveSwipeToFirestore(didLike: 0)
+        performSwipeAnimation(translation: -700, angle: -15)
     }
 }
