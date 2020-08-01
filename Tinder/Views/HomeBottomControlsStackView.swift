@@ -17,13 +17,17 @@ class HomeBottomControlsStackView: UIStackView {
         return button
     }()
     private lazy var dislikeButton: UIButton = {
-        return self.createButton(with: #imageLiteral(resourceName: "dismiss_circle"))
+        let button = self.createButton(with: #imageLiteral(resourceName: "dismiss_circle"))
+        button.addTarget(self, action: #selector(onDislikeButtonPressed(_:)), for: .touchUpInside)
+        return button
     }()
     private lazy var superLikeButton: UIButton = {
         return self.createButton(with: #imageLiteral(resourceName: "super_like_circle"))
     }()
     private lazy var likeButton: UIButton = {
-        return self.createButton(with: #imageLiteral(resourceName: "like_circle"))
+        let button = self.createButton(with: #imageLiteral(resourceName: "like_circle"))
+        button.addTarget(self, action: #selector(onLikeButtonPressed(_:)), for: .touchUpInside)
+        return button
     }()
     private lazy var specialButton: UIButton = {
         return self.createButton(with: #imageLiteral(resourceName: "boost_circle"))
@@ -31,6 +35,8 @@ class HomeBottomControlsStackView: UIStackView {
     
     // MARK: - Variables
     var refreshButtonPressed: (() -> Void)?
+    var dislikeButtonPressed: (() -> Void)?
+    var likeButtonPressed: (() -> Void)?
     
     // MARK: - UIView Lifecycle
     override init(frame: CGRect) {
@@ -56,5 +62,13 @@ class HomeBottomControlsStackView: UIStackView {
     // MARK: - Actions
     @objc private func onRefreshButtonPressed(_ sender: UIButton) {
         refreshButtonPressed?()
+    }
+    
+    @objc private func onDislikeButtonPressed(_ sender: UIButton) {
+        dislikeButtonPressed?()
+    }
+    
+    @objc private func onLikeButtonPressed(_ sender: UIButton) {
+        likeButtonPressed?()
     }
 }

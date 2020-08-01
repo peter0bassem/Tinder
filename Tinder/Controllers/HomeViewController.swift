@@ -35,6 +35,7 @@ class HomeViewController: UIViewController {
     var cardViewModels = [CardViewModel]()
     var lastFetchedUser: User?
     private var user: User?
+    private var topCardView: CardView?
     
     // MARK: - UIViewController Lifecycle
     override func viewDidLoad() {
@@ -45,8 +46,8 @@ class HomeViewController: UIViewController {
         setupTopStackViewActions()
         setupBottomControlsActions()
         fetchCurrentUser()
-//        setupFirestoreUserCards()
-//        fetchUsersFromFirestore()
+        //        setupFirestoreUserCards()
+        //        fetchUsersFromFirestore()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -85,12 +86,45 @@ class HomeViewController: UIViewController {
     
     private func setupBottomControlsActions() {
         bottomControls.refreshButtonPressed = { [weak self] in
-            self?.fetchUsersFromFirestore()
+            self?.fetchCurrentUser()
         }
+        bottomControls.dislikeButtonPressed = { [weak self] in
+            self?.performSwipeAnimation(translation: -700, angle: -15)
+        }
+        bottomControls.likeButtonPressed = { [weak self] in
+            self?.performSwipeAnimation(translation: 700, angle: 15)
+        }
+    }
+    
+    private func performSwipeAnimation(translation: CGFloat, angle: CGFloat) {
+        let duration = 0.5
+        let translationAnimation = CABasicAnimation(keyPath: "position.x")
+        translationAnimation.toValue = translation
+        translationAnimation.duration = duration
+        translationAnimation.fillMode = .forwards
+        translationAnimation.timingFunction = CAMediaTimingFunction(name: .easeOut)
+        translationAnimation.isRemovedOnCompletion = false
+        
+        let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
+        rotationAnimation.toValue = angle * CGFloat.pi / 180
+        rotationAnimation.duration = duration
+        
+        let cardView = topCardView
+        topCardView = cardView?.nextCardView
+        
+        CATransaction.setCompletionBlock {
+            cardView?.removeFromSuperview()
+        }
+        
+        cardView?.layer.add(translationAnimation, forKey: "translation")
+        cardView?.layer.add(rotationAnimation, forKey: "rotation")
+        
+        CATransaction.commit()
     }
     
     private func fetchCurrentUser() {
         loadingHud.show(in: view)
+        cardsDeckView.subviews.forEach { $0.removeFromSuperview() }
         Firestore.firestore().fetchCurrentUser { [weak self] (user, error) in
             if let error = error {
                 print("Failed to fetch current user:", error)
@@ -103,30 +137,40 @@ class HomeViewController: UIViewController {
     
     private func fetchUsersFromFirestore() {
         let query = Firestore.firestore().collection("users").whereField("age", isGreaterThanOrEqualTo: user?.minSeekingAge ?? SettingsTableViewController.defaultMinSeekingAge).whereField("age", isLessThanOrEqualTo: user?.maxSeekingAge ?? SettingsTableViewController.defaultMaxSeekingAge)
+        topCardView = nil
         query.getDocuments { [weak self] (snapshot, error) in
             self?.loadingHud.dismiss()
             if let error = error {
                 print("Failed to fetch users:", error)
                 return
             }
+            
+            var previousCardView: CardView?
+            
             snapshot?.documents.forEach {
                 let user = User(dictionary: $0.data())
                 if user.uid != Auth.auth().currentUser?.uid {
-                    self?.setupCard(from: user)
+                    let cardView = self?.setupCard(from: user)
+                    
+                    previousCardView?.nextCardView = cardView
+                    previousCardView = cardView
+                    
+                    if self?.topCardView == nil {
+                        self?.topCardView = cardView
+                    }
                 }
-//                self?.cardViewModels.append(user.toCardViewModel())
-//                self?.lastFetchedUser = user
             }
         }
     }
     
-    private func setupCard(from user: User) {
+    private func setupCard(from user: User) -> CardView {
         let cardView = CardView()
         cardView.cardViewModel = user.toCardViewModel()
         cardView.delegate = self
         cardsDeckView.addSubview(cardView)
         cardsDeckView.sendSubviewToBack(cardView)
         cardView.fillSuperview()
+        return cardView
     }
     
     private func setupFirestoreUserCards() {
@@ -164,5 +208,10 @@ extension HomeViewController: CardViewDelegate {
         userDetailsViewController.modalPresentationStyle = .fullScreen
         userDetailsViewController.cardViewModel = cardViewModel
         present(userDetailsViewController, animated: true)
+    }
+    
+    func cardViewDidRemoveCardView(_ cardView: CardView) {
+        topCardView?.removeFromSuperview()
+        topCardView = topCardView?.nextCardView
     }
 }

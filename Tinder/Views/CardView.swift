@@ -11,6 +11,7 @@ import SDWebImage
 
 protocol CardViewDelegate: class {
     func cardViewDidTapMoreInfo(with cardViewModel: CardViewModel)
+    func cardViewDidRemoveCardView(_ cardView: CardView)
 }
 
 class CardView: UIView {
@@ -53,6 +54,7 @@ class CardView: UIView {
     private let threshold: CGFloat = 80
     private let barDeselectedColor = UIColor(white: 0, alpha: 0.1)
     weak var delegate: CardViewDelegate?
+    var nextCardView: CardView?
 
     var cardViewModel: CardViewModel! {
         didSet {
@@ -156,6 +158,7 @@ class CardView: UIView {
             self.transform = .identity
             if shouldDismissCard {
                 self.removeFromSuperview()
+                self.delegate?.cardViewDidRemoveCardView(self)
                 //                self.superview?.sendSubviewToBack(self) // just for sending the removed card to the back of all other views for not showing empty view after removing all cards.
             }
             //            self.frame = CGRect(x: 0, y: 0, width: self.superview!.frame.size.width, height: self.superview!.frame.size.height)
