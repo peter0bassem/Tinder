@@ -181,12 +181,9 @@
 			isa = PBXGroup;
 			children = (
 				E013295724D2B6C100214E1C /* CustomUIComponents */,
-				E03F9C9F24D0F52D0028480B /* HomeTopNavigationStackView.swift */,
-				E03F9CA124D100440028480B /* CardView.swift */,
-				E03F9C9D24D0F0ED0028480B /* HomeBottomControlsStackView.swift */,
-				E013294F24D2A16E00214E1C /* SettingsTableViewCell.swift */,
-				E070BCDE24D3881B0013F7F1 /* AgeRangeTableViewCell.swift */,
-				E0E83EC824D5342B0088A0D8 /* MatchView.swift */,
+				E0E83ECE24D5E9950088A0D8 /* HomeViews */,
+				E0E83ECF24D5E9BA0088A0D8 /* SettingsViews */,
+				E0E83ED024D5EA250088A0D8 /* MatchView */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -197,6 +194,65 @@
 				E0C7425524D242DD000D20A2 /* Bindable.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		E0E83ECE24D5E9950088A0D8 /* HomeViews */ = {
+			isa = PBXGroup;
+			children = (
+				E03F9C9F24D0F52D0028480B /* HomeTopNavigationStackView.swift */,
+				E03F9CA124D100440028480B /* CardView.swift */,
+				E03F9C9D24D0F0ED0028480B /* HomeBottomControlsStackView.swift */,
+			);
+			path = HomeViews;
+			sourceTree = "<group>";
+		};
+		E0E83ECF24D5E9BA0088A0D8 /* SettingsViews */ = {
+			isa = PBXGroup;
+			children = (
+				E013294F24D2A16E00214E1C /* SettingsTableViewCell.swift */,
+				E070BCDE24D3881B0013F7F1 /* AgeRangeTableViewCell.swift */,
+			);
+			path = SettingsViews;
+			sourceTree = "<group>";
+		};
+		E0E83ED024D5EA250088A0D8 /* MatchView */ = {
+			isa = PBXGroup;
+			children = (
+				E0E83EC824D5342B0088A0D8 /* MatchView.swift */,
+			);
+			path = MatchView;
+			sourceTree = "<group>";
+		};
+		E0E83ED124D5EA3E0088A0D8 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				E07C17AC24D3B14A0040BCDD /* LoginViewController.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		E0E83ED224D5EA490088A0D8 /* Registration */ = {
+			isa = PBXGroup;
+			children = (
+				E0F9BC7C24D1A68A00F81B6E /* RegistrationViewController.swift */,
+			);
+			path = Registration;
+			sourceTree = "<group>";
+		};
+		E0E83ED324D5EA590088A0D8 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				E03F9C8924D0E9640028480B /* HomeViewController.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		E0E83ED424D5EA630088A0D8 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				E013294D24D2940F00214E1C /* SettingsTableViewController.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		E0EF8ABE24D12127004E5DBB /* Model */ = {
@@ -211,11 +267,11 @@
 		E0EF8AC124D127F1004E5DBB /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				E0E83ED124D5EA3E0088A0D8 /* Login */,
+				E0E83ED224D5EA490088A0D8 /* Registration */,
+				E0E83ED324D5EA590088A0D8 /* Home */,
 				E02C7C3924D3D67500F52950 /* User Details */,
-				E07C17AC24D3B14A0040BCDD /* LoginViewController.swift */,
-				E0F9BC7C24D1A68A00F81B6E /* RegistrationViewController.swift */,
-				E03F9C8924D0E9640028480B /* HomeViewController.swift */,
-				E013294D24D2940F00214E1C /* SettingsTableViewController.swift */,
+				E0E83ED424D5EA630088A0D8 /* Settings */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";

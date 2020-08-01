@@ -144,7 +144,10 @@ class HomeViewController: UIViewController {
                 print("Faield to fetch swipes for currently logged in user:", error)
                 return
             }
-            guard let swipes = snapshot?.data() as? [String:Int] else { return }
+            guard let swipes = snapshot?.data() as? [String:Int] else {
+                self?.fetchUsersFromFirestore()
+                return
+            }
             self?.swipes = swipes
             self?.fetchUsersFromFirestore()
         }
