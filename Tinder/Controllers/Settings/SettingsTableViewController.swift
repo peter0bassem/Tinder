@@ -7,7 +7,9 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseAuth
+import FirebaseStorage
+import FirebaseFirestore
 import JGProgressHUD
 import SDWebImage
 
@@ -213,10 +215,10 @@ extension SettingsTableViewController {
             cell.userInformationText = user?.name
             cell.keyboardReturnType = .next
 //            cell.keyboardType = .default
-            cell.keyboardNextAction = {
+            cell.keyboardNextAction = { [weak self] in
                 guard let nextCell = tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? SettingsTableViewCell else { return }
                 nextCell.makeTextFieldFirstResponder()
-                self.tableView.scrollToRow(at: IndexPath(row: 0, section: 2), at: .none, animated: true)
+                self?.tableView.scrollToRow(at: IndexPath(row: 0, section: 2), at: .none, animated: true)
             }
             cell.nameTextFieldTextChange = { [weak self] (name) in
                 self?.user?.name = name
@@ -226,10 +228,10 @@ extension SettingsTableViewController {
             cell.userInformationText = user?.profession
             cell.keyboardReturnType = .next
 //            cell.keyboardType = .default
-            cell.keyboardNextAction = {
+            cell.keyboardNextAction = { [weak self] in
                 guard let nextCell = tableView.cellForRow(at: IndexPath(row: 0, section: 3)) as? SettingsTableViewCell else { return }
                 nextCell.makeTextFieldFirstResponder()
-                self.tableView.scrollToRow(at: IndexPath(row: 0, section: 3), at: .none, animated: true)
+                self?.tableView.scrollToRow(at: IndexPath(row: 0, section: 3), at: .none, animated: true)
             }
             cell.professionTextFieldTextChange = { [weak self] (profession) in
                 self?.user?.profession = profession
@@ -242,10 +244,10 @@ extension SettingsTableViewController {
             cell.keyboardReturnType = .next
 //            cell.keyboardType = .numberPad
             
-            cell.keyboardNextAction = {
+            cell.keyboardNextAction = { [weak self] in
                 guard let nextCell = tableView.cellForRow(at: IndexPath(row: 0, section: 4)) as? SettingsTableViewCell else { return }
                 nextCell.makeTextFieldFirstResponder()
-                self.tableView.scrollToRow(at: IndexPath(row: 0, section: 4), at: .none, animated: true)
+                self?.tableView.scrollToRow(at: IndexPath(row: 0, section: 4), at: .none, animated: true)
             }
             cell.ageTextFieldTextChange = { [weak self] (age) in
                 self?.user?.age = Int(age ?? "")

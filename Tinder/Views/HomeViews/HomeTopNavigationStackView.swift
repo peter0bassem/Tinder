@@ -25,11 +25,13 @@ class HomeTopNavigationStackView: UIStackView {
     private lazy var messageButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "top_right_messages").withRenderingMode(.alwaysOriginal), for: .normal)
+        button.addTarget(self, action: #selector(onMessageButtonPressed(_:)), for: .touchUpInside)
         return button
     }()
     
     // MARK: - Variables
     var settingsButtonPressed: (() -> Void)?
+    var messageButtonPressed: (() -> Void)?
 
     // MARK: - UIView Lifecycle
     override init(frame: CGRect) {
@@ -51,5 +53,9 @@ class HomeTopNavigationStackView: UIStackView {
     // MARK: - Actions
     @objc private func onSettingsButtonPressed(_ sender: UIButton) {
         settingsButtonPressed?()
+    }
+    
+    @objc private func onMessageButtonPressed(_ sender: UIButton) {
+        messageButtonPressed?()
     }
 }

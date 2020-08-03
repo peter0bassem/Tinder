@@ -6,7 +6,8 @@
 //  Copyright © 2020 Peter Bassem. All rights reserved.
 //
 
-import Firebase
+import FirebaseAuth
+import FirebaseFirestore
 
 extension Firestore {
     

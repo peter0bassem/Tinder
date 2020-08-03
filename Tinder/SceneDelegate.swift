@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         if let scene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: scene)
-            window.rootViewController = HomeViewController() //SwipingPhotosPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+            window.rootViewController = UINavigationController(rootViewController: HomeViewController()) //SwipingPhotosPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
             self.window = window
             window.makeKeyAndVisible()
         }

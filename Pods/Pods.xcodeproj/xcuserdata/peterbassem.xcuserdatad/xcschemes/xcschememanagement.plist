@@ -24,22 +24,12 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>FirebaseAuthInterop.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>FirebaseCore.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
 		<key>FirebaseCoreDiagnostics.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>FirebaseCoreDiagnosticsInterop.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -74,17 +64,17 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>GoogleDataTransportCCTSupport.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>GoogleUtilities.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
 		<key>JGProgressHUD.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>LBTATools.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>

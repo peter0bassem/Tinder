@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseFirestore
 
 class MatchView: UIView {
     
@@ -91,9 +91,12 @@ class MatchView: UIView {
                 let user = User(dictionary: dictionary)
                 self?.descriptionLabel.text = "You and \(user.name ?? "") have liked\neach other"
                 self?.cardUserImageView.sd_setImage(with: URL(string: user.imageUrl1 ?? ""))
-                self?.currentUserImageView.sd_setImage(with: URL(string: self?.currentUser.imageUrl1 ?? "")) { (_, _, _, _) in
+                self?.currentUserImageView.sd_setImage(with: URL(string: self?.currentUser.imageUrl1 ?? ""), placeholderImage: #imageLiteral(resourceName: "photo_placeholder").withRenderingMode(.alwaysOriginal), options: .continueInBackground) { (_, _, _, _) in
                     self?.setupAnimations()
                 }
+//                self?.currentUserImageView.sd_setImage(with: URL(string: self?.currentUser.imageUrl1 ?? "")) { (_, _, _, _) in
+//                    self?.setupAnimations()
+//                }
             }
         }
     }

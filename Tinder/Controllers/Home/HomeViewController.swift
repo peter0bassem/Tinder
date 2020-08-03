@@ -7,7 +7,8 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseAuth
+import FirebaseFirestore
 import JGProgressHUD
 
 class HomeViewController: UIViewController {
@@ -37,6 +38,7 @@ class HomeViewController: UIViewController {
     private var user: User?
     private var topCardView: CardView?
     private var swipes = [String:Int]()
+    private var users = [String: User]()
     
     // MARK: - UIViewController Lifecycle
     override func viewDidLoad() {
@@ -63,6 +65,7 @@ class HomeViewController: UIViewController {
     
     // MARK: - Helpers
     private func setupLayout() {
+        navigationController?.navigationBar.isHidden = true
         view.backgroundColor = .white
         let overallStackView = UIStackView(arrangedSubviews: [topStackView, cardsDeckView, bottomControls])
         overallStackView.axis = .vertical
@@ -80,6 +83,11 @@ class HomeViewController: UIViewController {
             let settingsNavigationController = UINavigationController(rootViewController: settingsViewController)
             settingsNavigationController.modalPresentationStyle = .fullScreen
             self?.present(settingsNavigationController, animated: true)
+        }
+        topStackView.messageButtonPressed = { [weak self] in
+            guard let user = self?.user else { return }
+            let matchesMessagesViewController = MatchesMessagesCollectionViewController(currentUser: user)
+            self?.navigationController?.pushViewController(matchesMessagesViewController, animated: true)
         }
     }
     
@@ -154,7 +162,7 @@ class HomeViewController: UIViewController {
     }
     
     private func fetchUsersFromFirestore() {
-        let query = Firestore.firestore().collection("users").whereField("age", isGreaterThanOrEqualTo: user?.minSeekingAge ?? SettingsTableViewController.defaultMinSeekingAge).whereField("age", isLessThanOrEqualTo: user?.maxSeekingAge ?? SettingsTableViewController.defaultMaxSeekingAge)
+        let query = Firestore.firestore().collection("users").whereField("age", isGreaterThanOrEqualTo: user?.minSeekingAge ?? SettingsTableViewController.defaultMinSeekingAge).whereField("age", isLessThanOrEqualTo: user?.maxSeekingAge ?? SettingsTableViewController.defaultMaxSeekingAge).limit(to: 10)
         topCardView = nil
         query.getDocuments { [weak self] (snapshot, error) in
             self?.loadingHud.dismiss()
@@ -167,6 +175,8 @@ class HomeViewController: UIViewController {
             
             snapshot?.documents.forEach {
                 let user = User(dictionary: $0.data())
+                self?.users[user.uid ?? ""] = user
+                
                 let isNotCurrentUser = user.uid != Auth.auth().currentUser?.uid
 //                let hasNotSwipedBefore = self?.swipes[user.uid ?? ""] == nil
                 let hasNotSwipedBefore = true
@@ -244,6 +254,26 @@ class HomeViewController: UIViewController {
             if hasMatched {
                 print("Has Matched")
                 self?.presentMatchView(cardUID: cardUID)
+                
+                guard let cardUser = self?.users[cardUID] else { return }
+                
+                let data: [String:Any] = ["name": cardUser.name ?? "", "profileImageUrl": cardUser.imageUrl1 ?? "", "uid": cardUID, "timestamp": Timestamp(date: Date())]
+                Firestore.firestore().collection("matches_messages").document(uid).collection("matches").document(cardUID).setData(data) { (error) in
+                    if let error = error {
+                        print("Failed to save match info:", error)
+                        return
+                    }
+                }
+                
+                guard let currentUser = self?.user else { return }
+
+                let otherMatchData: [String:Any] = ["name": currentUser.name ?? "", "profileImageUrl": currentUser.imageUrl1 ?? "", "uid": currentUser.uid ?? "", "timestamp": Timestamp(date: Date())]
+                Firestore.firestore().collection("matches_messages").document(cardUID).collection("matches").document(uid).setData(otherMatchData) { (error) in
+                    if let error = error {
+                        print("Failed to save match info:", error)
+                        return
+                    }
+                }
             }
         }
     }
